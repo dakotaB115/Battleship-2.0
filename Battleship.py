@@ -2,13 +2,19 @@ import random
 import sys
 import os
 
-grid_ai = [["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"],["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"],["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"],["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"],["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"],["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"],["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"],["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"],["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"],["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"]]
+grid_ai = [["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], [
+    "o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"]]
 
-grid_player = [["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"]]
+grid_player = [["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], [
+    "o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"]]
 
+grid_top = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
 # Display the grid
+
+
 def display_player():
     y = 0
+    print(grid_top)
     while y < 10:
         print(grid_player[y])
         y += 1
@@ -16,104 +22,131 @@ def display_player():
 
 def display_ai():
     y = 0
+    print(grid_top)
     while y < 10:
         print(grid_ai[y])
         y += 1
 
-# Initialize the AI grid
-# Need to determine orientation (1=up, 2=down, 3=left, 4=right) random.randint(1,4)
-# Carrier, with five holes.
-# Battleship, with four holes.
-# Cruiser, with three holes.
-# Submarine, with three holes.
-# Destroyer, with two holes.
-# Need to get 17 points to win
-# Need to make sure ships are not clipping
 
-def writer_pos(x, y, piece):
-        row = grid_ai[y]
-        while piece > 0:
-                x += 1
-                row[x] = "x"
-                piece -= 1 
+def y_detector(y):
+    if y < 0:
+        print("negative")
+    elif y > 9:
+        print("positive")
 
 
-def writer_neg(x, y, piece):
-        row = grid_ai[y]
-        while piece > 0:
-                x -= 1
-                row[x] = "x"
-                piece -= 1
-        print(row)
-
-def up(p):
-        x = random.randint(0, 9)
-        y = random.randint(0, 9)
-        if p == 1:
-                writer_pos(y, x, p)
-        elif p == 2:
-                writer_pos(y, x, p)
-        elif p == 3:
-                writer_pos(y, x, p)
-        elif p == 4:
-                writer_neg(y, x, p)
+def up(x, y, piece):
+    while piece > 0:
+        piece -= 1
+        y += 1
+        grid_ai[y][x] = "x"
 
 
-def down():
-        print("down")
+def down(x, y, piece):
+    while piece > 0:
+        piece -= 1
+        y -= 1
+        grid_ai[y][x] = "x"
 
-def left():
-        print("left")
 
-def right():
-        print("right")
+def left(x, y, piece):
+    while piece > 0:
+        piece -= 1
+        x -= 1
+        grid_ai[y][x] = "x"
+
+
+def right(x, y, piece):
+    while piece > 0:
+        piece -= 1
+        x += 1
+        grid_ai[y][x] = "x"
+
+
+# def AI_grid_init():
+#     r = 0
+#     p = 0
+#     z = 8
+#     for i in range(5):
+#         o = random.randint(1, 5)
+#         r += 1
+
+#         if r == 1:
+#             p = 2
+#         elif r == 2 or r == 3:
+#             p = 3
+#         elif r == 4:
+#             p = 4
+#         elif r == 5:
+#             p = 5
+
+#         if o == 1:
+#             x = random.randint(0, z)
+#             print("Up x:" + str(x))
+#             y = random.randint(0, z)
+#             print("Up y:" + str(y))
+#             up(x, y, p)
+#         elif o == 2:
+#             x = random.randint(0, z)
+#             print("Down x:" + str(x))
+#             y = random.randint(0, z)
+#             print("Down y:" + str(y))
+#             down(x, y, p)
+#         elif o == 3:
+#             x = random.randint(0, z)
+#             print("Left x:" + str(x))
+#             y = random.randint(0, z)
+#             print("Left y:" + str(y))
+#             left(x, y, p)
+#         elif o == 4:
+#             x = random.randint(0, z)
+#             print("Right x:" + str(x))
+#             y = random.randint(0, z)
+#             print("Right y:" + str(y))
+#             right(x, y, p)
 
 def AI_grid_init():
-        # o = random.randint(1, 4)
+    r = 0
+    p = 0
+    for i in range(5):
         o = 1
-        pieces = []
-        piece = 0
-        for i in range(5):
-                        r = random.randint(1, 4)
-                        if r not in pieces:
-                                pieces.append(r)
-                                piece = r
+        r += 1
+        if r == 1 or r == 2:
+            p = r + 1
+        else:
+            p = r
+
         if o == 1:
-                up(piece)
-        # elif o == 2:
+            #     x = random.randint(0, 9)
+            #     y = random.randint(0, 9)
+            up(1, 8, p)
 
-        # elif o == 3:
-
-        # elif o == 4:
-
-AI_grid_init()
-display_ai()
 
 # Player input
-def shoot(x, y):
-    x -= 1
-    y -= 1
-    grid_player[y][x] = "x"
+
 
 def fire():
     display_player()
     x = int(input("x: ")) - 1
     y = int(input("y: ")) - 1
-    shoot(x, y)
+    grid_player[y][x] = "x"
     if grid_ai[y][x] == "x":
-        os.system("cls")
+        os.system("clear")
         print("HIT")
     else:
-        os.system("cls")
+        os.system("clear")
         print("MISS")
 
-# Builder
-# turns = 1
+
+AI_grid_init()
+display_ai()
+# turns = 20
 # while turns > 0:
+#     display_ai()
 #     turns -= 1
 #     print("Turns left: " + str(turns))
 #     fire()
 #     if turns == 0:
-#         os.system("cls")
+#         os.system("clear")
 #         print("Goodbye")
 #         sys.exit()
