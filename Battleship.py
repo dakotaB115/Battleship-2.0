@@ -2,13 +2,30 @@ import random
 import sys
 import os
 
-grid_ai = [["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o","o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"]]
+grid_ai = [["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], [
+    "o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"]]
 
 
-grid_player = [["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o","o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"]]
+grid_player = [["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], [
+    "o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"], ["o", "o", "o", "o", "o", "o", "o", "o", "o", "o"]]
 # Display the grid
 
 grid_top = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+
+ships = []
+tf_array = []
+
+points = int
+
+
+def add_ship(o, p, x, y):
+    ship = []
+    ship.append(o)
+    ship.append(p)
+    ship.append(x)
+    ship.append(y)
+    ships.append(ship)
+
 
 def display_player():
     y = 0
@@ -36,11 +53,13 @@ def y_detector(y):
     elif y > 9:
         print("positive")
 
+
 def down(x, y, piece):
     while piece > 0:
         grid_ai[y][x] = "x"
         piece -= 1
         y += 1
+
 
 def right(x, y, piece):
     while piece > 0:
@@ -48,11 +67,13 @@ def right(x, y, piece):
         piece -= 1
         x += 1
 
+
 def AI_grid_init():
+    tf_array = []
     r = 0
     p = 0
     for i in range(5):
-        o = random.randint(1,2)
+        o = random.randint(1, 2)
         r += 1
         if r == 1 or r == 2:
             p = r + 1
@@ -60,23 +81,25 @@ def AI_grid_init():
             p = r
 
         if o == 1:
+            x = random.randint(0, 9)
+            y = random.randint(0, 9)
+            z = p + y
+            while z > 9 or z < 0:
                 x = random.randint(0, 9)
                 y = random.randint(0, 9)
                 z = p + y
-                while z > 9 or z < 0:
-                     x = random.randint(0, 9)
-                     y = random.randint(0, 9)
-                     z = p + y
-                down(x, y, p)
+            add_ship(p, "Vertical", x, y)
+            down(z, y, p)
         elif o == 2:
+            x = random.randint(0, 9)
+            y = random.randint(0, 9)
+            z = p + x
+            while z > 9 or z < 0:
                 x = random.randint(0, 9)
                 y = random.randint(0, 9)
                 z = p + x
-                while z > 9 or z < 0:
-                     x = random.randint(0, 9)
-                     y = random.randint(0, 9)
-                     z = p + x
-                right(x, y, p)
+            add_ship(p, "Horizontal", x, y)
+            right(x, y, p)
 # Player input
 
 
@@ -93,7 +116,50 @@ def fire():
         print("MISS")
 
 
-AI_grid_init()
+def check_collision():
+    p = int
+    o = str
+    x = int
+    y = int
+    section = 0
+    for i in range(5):
+        p = ships[section][0]
+        o = ships[section][1]
+        x = ships[section][2]
+        y = ships[section][3]
+        section += 1
+        if o == "Horizontal":
+            tf = bool
+            end = p + x
+            if "x" in grid_ai[y][x:end]:
+                tf = True
+                tf_array.append(tf)
+            else:
+                tf = False
+        elif o == "Vertical":
+            tf = bool
+            for i in range(p):
+                if "x" in grid_ai[y][x]:
+                    tf = True
+                else:
+                    y += 1
+                    tf = False
+            tf_array.append(tf)
+
+
+def AI_checker():
+    AI_grid_init()
+    print(ships)
+    check_collision()
+    print(tf_array)
+    if True in tf_array[0:4]:
+        AI_grid_init()
+        check_collision()
+    else:
+        display_ai()
+
+
+AI_checker()
 display_ai()
 # turns = 20
 # while turns > 0:
